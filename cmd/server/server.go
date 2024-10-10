@@ -7,9 +7,10 @@ import (
 )
 
 type Server struct {
-	Config      util.Config
-	Router      *gin.Engine
-	UserService *service.UserService
+	Config         util.Config
+	Router         *gin.Engine
+	UserService    *service.UserService
+	MessageService *service.MessageService
 }
 
 func NewServer(config util.Config) (*Server, error) {

@@ -9,5 +9,6 @@ func (server *Server) InitService() error {
 	}
 
 	server.UserService = factory.UserService
+	server.MessageService = factory.MessageService
 	return nil
 }

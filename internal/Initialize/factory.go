@@ -7,8 +7,10 @@ import (
 )
 
 type Factory struct {
-	UserRepo    *repo.UserRepo
-	UserService *service.UserService
+	UserRepo       *repo.UserRepo
+	MessageRepo    *repo.MessageRepo
+	UserService    *service.UserService
+	MessageService *service.MessageService
 }
 
 func NewFactory() (*Factory, error) {
@@ -22,9 +24,18 @@ func NewFactory() (*Factory, error) {
 	if err != nil {
 		return nil, err
 	}
+	messageRepo, err := repo.NewMessageRepo(queries)
+	if err != nil {
+		return nil, err
+	}
+
 	userService := service.NewUserService(userRepo)
+	messageService := service.NewMessageService(messageRepo)
+
 	return &Factory{
-		UserRepo:    userRepo,
-		UserService: userService,
+		UserRepo:       userRepo,
+		MessageRepo:    messageRepo,
+		UserService:    userService,
+		MessageService: messageService,
 	}, nil
 }

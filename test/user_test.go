@@ -12,11 +12,10 @@ import (
 func createRandomUser(t *testing.T) db.User {
 	hashPassword, err := util.HashPashword("kocanpass")
 	require.NoError(t, err)
-	gender := util.RandomGender()
 	arg := db.CreateUserParams{
 		Username:  util.RandomString(6),
 		Password:  hashPassword,
-		UrlAvatar: util.RandomAvatar(gender),
+		UrlAvatar: util.RandomURL(),
 	}
 
 	user, err := testQueries.CreateUser(context.Background(), arg)
