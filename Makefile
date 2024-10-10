@@ -7,9 +7,6 @@ DB_SSLMODE=disable
 postgres:
 	docker run --name postgres17 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=yourchoice -d postgres:17rc1-alpine3.20
 
-server:
-	go run cmd/main.go
-
 startdk:
 	docker start postgres17
 
