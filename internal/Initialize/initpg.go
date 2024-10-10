@@ -1,7 +1,9 @@
-package util
+package initialize
 
 import (
 	"database/sql"
+
+	"github.com/LeMinh0706/ChatApp/util"
 )
 
 var (
@@ -10,7 +12,7 @@ var (
 
 func InitPostgres() (*sql.DB, error) {
 	if pgd == nil {
-		config, err := LoadConfig("../")
+		config, err := util.LoadConfig("../")
 		if err != nil {
 			return nil, err
 		}

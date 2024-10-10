@@ -53,3 +53,9 @@ func RandomAvatar(gender int32) string {
 		return men[rand.Intn(n)]
 	}
 }
+
+func RandomURL() string {
+	url := []string{"upload/avatar/avatar_men_1.jpg", "upload/avatar/avatar_men_2.jpg", "upload/avatar/avatar_men_3.jpg", "upload/avatar/avatar_men_4.jpg", "upload/avatar/avatar_women_1.jpg", "upload/avatar/avatar_women_2.jpg", "upload/avatar/avatar_women_3.jpg", "upload/avatar/avatar_women_4.jpg"}
+	n := len(url)
+	return url[rand.Intn(n)]
+}

@@ -1,13 +1,15 @@
 package server
 
 import (
+	"github.com/LeMinh0706/ChatApp/internal/service"
 	"github.com/LeMinh0706/ChatApp/util"
 	"github.com/gin-gonic/gin"
 )
 
 type Server struct {
-	Config util.Config
-	Router *gin.Engine
+	Config      util.Config
+	Router      *gin.Engine
+	UserService *service.UserService
 }
 
 func NewServer(config util.Config) (*Server, error) {

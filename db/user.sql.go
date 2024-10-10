@@ -40,10 +40,18 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 const getListUser = `-- name: GetListUser :many
 SELECT id, username, password, url_avatar FROM users
 WHERE id != $1
+LIMIT $2
+OFFSET $3
 `
 
-func (q *Queries) GetListUser(ctx context.Context, id int64) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, getListUser, id)
+type GetListUserParams struct {
+	ID     int64 `json:"id"`
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) GetListUser(ctx context.Context, arg GetListUserParams) ([]User, error) {
+	rows, err := q.db.QueryContext(ctx, getListUser, arg.ID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

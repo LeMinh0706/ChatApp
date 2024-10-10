@@ -1,11 +1,13 @@
 package server
 
-import "errors"
+import initialize "github.com/LeMinh0706/ChatApp/internal/Initialize"
 
 func (server *Server) InitService() error {
-	err := errors.New("Haha")
+	factory, err := initialize.NewFactory()
 	if err != nil {
 		return err
 	}
+
+	server.UserService = factory.UserService
 	return nil
 }

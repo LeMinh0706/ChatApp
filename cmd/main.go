@@ -5,6 +5,7 @@ import (
 
 	"github.com/LeMinh0706/ChatApp/cmd/server"
 	"github.com/LeMinh0706/ChatApp/util"
+	_ "github.com/lib/pq"
 )
 
 func main() {

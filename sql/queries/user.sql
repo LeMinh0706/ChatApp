@@ -9,7 +9,9 @@ INSERT INTO users(
 
 -- name: GetListUser :many
 SELECT * FROM users
-WHERE id != $1;
+WHERE id != $1
+LIMIT $2
+OFFSET $3;
 
 -- name: GetUser :one
 SELECT * FROM users
