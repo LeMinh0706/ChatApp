@@ -5,8 +5,11 @@ DB_USER=root
 DB_SSLMODE=disable
 PG_HOST = DB_SOURCE="postgresql://root:secret@postgres17:5432/ChatApp?sslmode=disable"
 
+pull-postgres:
+	docker pull postgres:17.0-alpine3.20
+
 postgres:
-	docker run --name postgres17 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:17rc1-alpine3.20
+	docker run --name postgres17 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:17.0-alpine3.20
 
 startdk:
 	docker start postgres17
@@ -17,6 +20,9 @@ createdb:
 upgo:
 	goose -dir $(GOOSE_DIR) postgres postgres://root:secret@localhost:5432/ChatApp?sslmode=disable up
 
+test: 
+	go test -v ./test
+
 builddk:
 	docker build . -t chatapp
 
@@ -26,6 +32,7 @@ network-create:
 
 rundk:
 	docker run --name chatapp --network chatapp-network -p 8050:8050 -e GIN_MODE=release -e $(PG_HOST) chatapp:latest
+
 
 ##########
 
@@ -52,4 +59,4 @@ module:
 	touch internal/router/$(name).router.go
 # 
 
-.PHONY: server startdk createdb dropdb createtable upgo downgo sqlc module
+.PHONY: server startdk createdb dropdb createtable upgo downgo sqlc module test
