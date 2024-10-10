@@ -7,8 +7,8 @@ import (
 )
 
 func NewUserRouter(r *gin.Engine, router *gin.RouterGroup, userService *service.UserService) {
-	userGroup := r.Group(router.BasePath() + "/users")
 	uc := controller.NewUserController(userService)
+	userGroup := r.Group(router.BasePath() + "/users")
 	{
 		userGroup.POST("register", uc.Register)
 		userGroup.POST("login", uc.Login)

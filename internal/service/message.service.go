@@ -26,3 +26,14 @@ func (ms *MessageService) SendMessage(ctx context.Context, arg db.CreateMessageP
 	res = message
 	return res, nil
 }
+
+func (ms *MessageService) HistoryMessage(ctx context.Context, arg db.GetMessagesParams) ([]db.Message, error) {
+	messages, err := ms.messageRepo.ListMessage(ctx, arg)
+	if err != nil {
+		return nil, err
+	}
+	if len(messages) == 0 {
+		return []db.Message{}, err
+	}
+	return messages, nil
+}

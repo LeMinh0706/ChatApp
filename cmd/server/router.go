@@ -7,5 +7,5 @@ func NewRouter(s *Server) {
 	{
 		router.NewUserRouter(s.Router, v1, s.UserService)
 	}
-	router.NewMessageRouter(s.Router, s.MessageService)
+	router.NewMessageRouter(s.Router, v1, s.MessageService)
 }

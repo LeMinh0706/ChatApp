@@ -45,16 +45,29 @@ func (mc *MessageController) MessageSocket(g *gin.Context) {
 			break
 		}
 
-		res, err := mc.messageService.SendMessage(g, msg)
+		_, err = mc.messageService.SendMessage(g, msg)
 		if err != nil {
 			log.Println("Error save message:", err)
 			break
 		}
-		response.SuccessResponse(g, 201, res)
 		err = conn.WriteJSON(msg)
 		if err != nil {
 			log.Println("Error send message:", err)
 			break
 		}
 	}
+}
+
+func (mc *MessageController) HistoryMessage(g *gin.Context) {
+	var req db.GetMessagesParams
+	if err := g.ShouldBindJSON(&req); err != nil {
+		response.ErrorResponse(g, 400, 40000)
+		return
+	}
+	messages, err := mc.messageService.HistoryMessage(g, req)
+	if err != nil {
+		response.ErrorNonKnow(g, 404, err.Error())
+		return
+	}
+	response.SuccessResponse(g, 200, messages)
 }
