@@ -11,6 +11,12 @@ postgres:
 startdk:
 	docker start postgres17
 
+createdb:
+	docker exec -it postgres17 createdb --username=root --owner=root ChatApp
+
+upgo:
+	goose -dir $(GOOSE_DIR) postgres postgres://root:secret@localhost:5432/ChatApp?sslmode=disable up
+
 builddk:
 	docker build . -t chatapp
 
@@ -22,11 +28,6 @@ rundk:
 	docker run --name chatapp --network chatapp-network -p 8050:8050 -e GIN_MODE=release -e $(PG_HOST) chatapp:latest
 
 ##########
-createdb:
-	docker exec -it postgres17 createdb --username=root --owner=root ChatApp
-
-upgo:
-	goose -dir $(GOOSE_DIR) postgres postgres://root:secret@localhost:5432/ChatApp?sslmode=disable up
 
 # You can skip here
 server:
