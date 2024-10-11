@@ -7,22 +7,22 @@ DB_SSLMODE=disable
 postgres:
 	docker run --name postgres17 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=yourchoice -d postgres:17rc1-alpine3.20
 
-server:
-	go run cmd/main.go
-
 startdk:
 	docker start postgres17
 
 createdb:
 	docker exec -it postgres17 createdb --username=root --owner=root ChatApp
 
-createtable:
-	goose -dir $(GOOSE_DIR) create $(name) sql
-
 upgo:
 	goose -dir $(GOOSE_DIR) postgres postgres://root:yourchoice@localhost:5432/ChatApp?sslmode=disable up
 
 # You can skip here
+server:
+	go run cmd/main.go
+
+createtable:
+	goose -dir $(GOOSE_DIR) create $(name) sql
+
 downgo:	
 	goose -dir $(GOOSE_DIR) postgres postgres://root:yourchoice@localhost:5432/ChatApp?sslmode=disable down
 

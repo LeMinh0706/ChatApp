@@ -11,9 +11,9 @@ import (
 
 func createRandomMessage(t *testing.T, user_id_1, user_id_2 int64) db.Message {
 	arg := db.CreateMessageParams{
-		FromUser: user_id_1,
-		ToUser:   user_id_2,
-		Content:  util.RandomDescription(),
+		FromID:  user_id_1,
+		ToID:    user_id_2,
+		Content: util.RandomDescription(),
 	}
 
 	message, err := testQueries.CreateMessage(context.Background(), arg)
@@ -21,8 +21,8 @@ func createRandomMessage(t *testing.T, user_id_1, user_id_2 int64) db.Message {
 	require.NoError(t, err)
 	require.NotEmpty(t, message)
 
-	require.Equal(t, user_id_1, message.FromUser)
-	require.Equal(t, user_id_2, message.ToUser)
+	require.Equal(t, user_id_1, message.FromID)
+	require.Equal(t, user_id_2, message.ToID)
 	require.Equal(t, arg.Content, message.Content)
 	return message
 }
@@ -40,8 +40,8 @@ func TestGetMessage(t *testing.T) {
 		createRandomMessage(t, user2.ID, user1.ID)
 	}
 	messages, err := testQueries.GetMessages(context.Background(), db.GetMessagesParams{
-		FromUser: user1.ID,
-		ToUser:   user2.ID,
+		FromID: user1.ID,
+		ToID:   user2.ID,
 	})
 	require.NoError(t, err)
 	require.NotEmpty(t, messages)

@@ -1,7 +1,7 @@
 -- name: CreateMessage :one
 INSERT INTO message (
-    from_user,
-    to_user,
+    from_id,
+    to_id,
     content
 ) VALUES (
     $1, $2, $3
@@ -9,5 +9,5 @@ INSERT INTO message (
 
 -- name: GetMessages :many
 SELECT * FROM message 
-WHERE (from_user = $1 AND to_user = $2) OR (to_user = $1 AND from_user = $2)
+WHERE (from_id = $1 AND to_id = $2) OR (to_id = $1 AND from_id = $2)
 ORDER BY id DESC;

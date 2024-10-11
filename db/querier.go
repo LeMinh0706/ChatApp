@@ -14,6 +14,7 @@ type Querier interface {
 	GetListUser(ctx context.Context, arg GetListUserParams) ([]User, error)
 	GetMessages(ctx context.Context, arg GetMessagesParams) ([]Message, error)
 	GetUser(ctx context.Context, username string) (User, error)
+	GetUserById(ctx context.Context, id int64) (GetUserByIdRow, error)
 }
 
 var _ Querier = (*Queries)(nil)

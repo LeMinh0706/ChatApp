@@ -53,3 +53,11 @@ func (us *UserService) Login(ctx context.Context, username, password string) (re
 	res = response.UserRes(user)
 	return res, nil
 }
+
+func (us *UserService) GetUserById(ctx context.Context, id int64) (db.GetUserByIdRow, error) {
+	user, err := us.userRepo.GetById(ctx, id)
+	if err != nil {
+		return db.GetUserByIdRow{}, err
+	}
+	return user, nil
+}
