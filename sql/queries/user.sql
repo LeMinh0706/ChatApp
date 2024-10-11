@@ -17,3 +17,8 @@ OFFSET $3;
 SELECT * FROM users
 WHERE username = $1
 LIMIT 1;
+
+-- name: GetUserById :one
+SELECT id, username, url_avatar FROM users 
+WHERE id = $1
+LIMIT 1;

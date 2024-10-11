@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/LeMinh0706/ChatApp/db"
@@ -32,7 +31,8 @@ func NewMessageController(messageService *service.MessageService) *MessageContro
 func (mc *MessageController) MessageSocket(g *gin.Context) {
 	conn, err := mc.upgrader.Upgrade(g.Writer, g.Request, nil)
 	if err != nil {
-		log.Println("Error upgrade connect:", err)
+		// log.Println("Error upgrade connect:", err)
+		response.ErrorSocket(conn, 400, err.Error())
 		return
 	}
 	defer conn.Close()
@@ -41,20 +41,18 @@ func (mc *MessageController) MessageSocket(g *gin.Context) {
 		var msg db.CreateMessageParams
 		err := conn.ReadJSON(&msg)
 		if err != nil {
-			log.Println("Error read message:", err)
+			// log.Println("Error read message:", err)
+			response.ErrorSocket(conn, 401, err.Error())
 			break
 		}
 
-		_, err = mc.messageService.SendMessage(g, msg)
+		res, err := mc.messageService.SendMessage(g, msg)
 		if err != nil {
-			log.Println("Error save message:", err)
+			// log.Println("Error save message:", err)
+			response.ErrorSocket(conn, 404, err.Error())
 			break
 		}
-		err = conn.WriteJSON(msg)
-		if err != nil {
-			log.Println("Error send message:", err)
-			break
-		}
+		response.SuccessSocket(conn, 201, res)
 	}
 }
 

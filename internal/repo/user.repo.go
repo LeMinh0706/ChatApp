@@ -23,3 +23,7 @@ func (repo *UserRepo) CreateUser(ctx context.Context, arg db.CreateUserParams) (
 func (repo *UserRepo) GetUser(ctx context.Context, username string) (db.User, error) {
 	return repo.queries.GetUser(ctx, username)
 }
+
+func (repo *UserRepo) GetById(ctx context.Context, id int64) (db.GetUserByIdRow, error) {
+	return repo.queries.GetUserById(ctx, id)
+}

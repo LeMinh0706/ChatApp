@@ -95,3 +95,22 @@ func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
 	)
 	return i, err
 }
+
+const getUserById = `-- name: GetUserById :one
+SELECT id, username, url_avatar FROM users 
+WHERE id = $1
+LIMIT 1
+`
+
+type GetUserByIdRow struct {
+	ID        int64  `json:"id"`
+	Username  string `json:"username"`
+	UrlAvatar string `json:"url_avatar"`
+}
+
+func (q *Queries) GetUserById(ctx context.Context, id int64) (GetUserByIdRow, error) {
+	row := q.db.QueryRowContext(ctx, getUserById, id)
+	var i GetUserByIdRow
+	err := row.Scan(&i.ID, &i.Username, &i.UrlAvatar)
+	return i, err
+}

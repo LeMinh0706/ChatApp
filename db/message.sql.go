@@ -11,27 +11,27 @@ import (
 
 const createMessage = `-- name: CreateMessage :one
 INSERT INTO message (
-    from_user,
-    to_user,
+    from_id,
+    to_id,
     content
 ) VALUES (
     $1, $2, $3
-) RETURNING id, from_user, to_user, content, date_created
+) RETURNING id, from_id, to_id, content, date_created
 `
 
 type CreateMessageParams struct {
-	FromUser int64  `json:"from_user"`
-	ToUser   int64  `json:"to_user"`
-	Content  string `json:"content"`
+	FromID  int64  `json:"from_id"`
+	ToID    int64  `json:"to_id"`
+	Content string `json:"content"`
 }
 
 func (q *Queries) CreateMessage(ctx context.Context, arg CreateMessageParams) (Message, error) {
-	row := q.db.QueryRowContext(ctx, createMessage, arg.FromUser, arg.ToUser, arg.Content)
+	row := q.db.QueryRowContext(ctx, createMessage, arg.FromID, arg.ToID, arg.Content)
 	var i Message
 	err := row.Scan(
 		&i.ID,
-		&i.FromUser,
-		&i.ToUser,
+		&i.FromID,
+		&i.ToID,
 		&i.Content,
 		&i.DateCreated,
 	)
@@ -39,18 +39,18 @@ func (q *Queries) CreateMessage(ctx context.Context, arg CreateMessageParams) (M
 }
 
 const getMessages = `-- name: GetMessages :many
-SELECT id, from_user, to_user, content, date_created FROM message 
-WHERE (from_user = $1 AND to_user = $2) OR (to_user = $1 AND from_user = $2)
+SELECT id, from_id, to_id, content, date_created FROM message 
+WHERE (from_id = $1 AND to_id = $2) OR (to_id = $1 AND from_id = $2)
 ORDER BY id DESC
 `
 
 type GetMessagesParams struct {
-	FromUser int64 `json:"from_user"`
-	ToUser   int64 `json:"to_user"`
+	FromID int64 `json:"from_id"`
+	ToID   int64 `json:"to_id"`
 }
 
 func (q *Queries) GetMessages(ctx context.Context, arg GetMessagesParams) ([]Message, error) {
-	rows, err := q.db.QueryContext(ctx, getMessages, arg.FromUser, arg.ToUser)
+	rows, err := q.db.QueryContext(ctx, getMessages, arg.FromID, arg.ToID)
 	if err != nil {
 		return nil, err
 	}
@@ -60,8 +60,8 @@ func (q *Queries) GetMessages(ctx context.Context, arg GetMessagesParams) ([]Mes
 		var i Message
 		if err := rows.Scan(
 			&i.ID,
-			&i.FromUser,
-			&i.ToUser,
+			&i.FromID,
+			&i.ToID,
 			&i.Content,
 			&i.DateCreated,
 		); err != nil {

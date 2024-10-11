@@ -30,7 +30,7 @@ func NewFactory() (*Factory, error) {
 	}
 
 	userService := service.NewUserService(userRepo)
-	messageService := service.NewMessageService(messageRepo)
+	messageService := service.NewMessageService(messageRepo, userService)
 
 	return &Factory{
 		UserRepo:       userRepo,
