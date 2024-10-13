@@ -19,12 +19,14 @@ func NewServer(config util.Config) (*Server, error) {
 		Config: config,
 		Router: gin.Default(),
 	}
+	EnableCors(server.Router)
 	err := server.InitService()
 	if err != nil {
 		return nil, err
 	}
 	Static(server.Router)
 	NewRouter(server)
+
 	return server, nil
 }
 
