@@ -10,7 +10,7 @@ type Config struct {
 	DBDriver      string        `mapstructure:"DB_DRIVER"`
 	DBSource      string        `mapstructure:"DB_SOURCE"`
 	ServerAddress string        `mapstructure:"SERVER_ADDRESS"`
-	SymmetricKey  string        `mapstructure:"SYMMETRIC_KEY"`
+	SecretKey     string        `mapstructure:"SECRET_KEY"`
 	TimeDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 }
 

@@ -26,6 +26,10 @@ test:
 builddk:
 	docker build . -t chatapp
 
+rmdk:
+	docker rm chatapp
+	docker rmi chatapp
+
 network-create:
 	docker network create chatapp-network
 	docker network connect chatapp-network postgres17
